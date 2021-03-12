@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
       v.cpus = 2
     end
 
+    vault.vm.provision "shell", path: "scripts/provision_instantclient.sh"
     vault.vm.provision "shell", path: "scripts/provision_vault.sh"
 
   end
