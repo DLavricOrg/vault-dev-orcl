@@ -31,6 +31,36 @@ cd vault-dev-orcl
 vagrant up
 ```
 
+# information about database
+
+The following users will be created:
+
+- dynamic
+- static
+- myuser
+
+# on db node
+
+## connect to database
+
+if there is the need to connect to the database, to perform operations like create users, you can connect like this
+
+```
+vault ssh db
+sudo su - oracle
+. oraenv
+XE
+export ORACLE_PDB_SID=XEPDB1
+sqlplus / as sysdba
+```
+
+## restore database
+
+if there is the need to restore database to a good point, you can do
+
+```
+vagrant provision --provision-with flashback
+```
 
 # on Vault node
 
@@ -43,8 +73,7 @@ vagrant ssh vault
 ## connect to database
 
 ```
-source /vagrant/sw/instantclient.env 
-sqlplus system/password@//db.test:1521/XE
+source /vagrant/scripts/instantclient.env 
 sqlplus system/password@//db.test:1521/XEPDB1
 ```
 
@@ -77,4 +106,18 @@ HA Enabled      false
 
 ```
 VAULT_ADDR=http://127.0.0.1:8200 vault read database/creds/my-role
+```
+
+# vault ui
+
+## private network
+
+- url 
+```
+http://192.168.56.51:8100/ui
+```
+
+- root token
+```
+changeme
 ```

@@ -56,16 +56,3 @@ vault write sys/plugins/catalog/database/oracle-database-plugin \
   sha256="${SHA256}" \
   command=vault-plugin-database-oracle
 
-vault write database/config/my-oracle-database \
-  plugin_name=oracle-database-plugin \
-  connection_url="system/password@db.test:1521/XEPDB1" \
-  allowed_roles="my-role" \
-
-vault write database/roles/my-role \
-  db_name=my-oracle-database \
-  creation_statements='CREATE USER {{username}} IDENTIFIED BY "{{password}}"; GRANT CONNECT TO {{username}}; GRANT CREATE SESSION TO {{username}};' \
-  default_ttl="1h" \
-  max_ttl="24h"
-
-  
-VAULT_ADDR=http://127.0.0.1:8200 vault read database/creds/my-role
